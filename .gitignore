@@ -1,2 +1,3 @@
 models/
 .cache_frames/
+__pycache__/
