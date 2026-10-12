@@ -10,9 +10,11 @@ SRC="/Users/kirtan/Documents/ID"
 convert_dir() {  # <source dir> <dest dir> <height>
   local src="$1" dst="$2" h="$3"
   mkdir -p "$dst"
-  find "$src" -maxdepth 1 -type f \( -iname '*.mp4' -o -iname '*.mov' -o -iname '*.mxf' -o -iname '*.m4v' -o -iname '*.avi' -o -iname '*.mts' \) -print0 |
+  # Searches subfolders too (e.g. Camera Shots/CLIP, DCIM/100MEDIA); skips macOS ._ files.
+  find "$src" -type f ! -name '._*' \( -iname '*.mp4' -o -iname '*.mov' -o -iname '*.mxf' -o -iname '*.m4v' -o -iname '*.avi' -o -iname '*.mts' \) -print0 |
   while IFS= read -r -d '' f; do
-    name="$(basename "${f%.*}" | tr ' ' '_')"
+    rel="${f#"$src"/}"
+    name="$(echo "${rel%.*}" | tr ' /' '__')"
     out="$dst/$name.mp4"
     [ -f "$out" ] && { echo "skip $out"; continue; }
     echo "-> $out"
