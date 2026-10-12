@@ -1,0 +1,7 @@
+# Raw footage and renders stay on the local machine (too large for GitHub)
+footage/**
+!footage/**/
+!footage/**/.gitkeep
+renders/
+*.mov
+*.mxf
