@@ -400,7 +400,7 @@ class Typo:
         key = ("title",)
         if key not in self.cache:
             lg = self.logo
-            tw = int(self.W * 0.56)
+            tw = int(self.W * 0.44)
             lg = lg.resize((tw, int(lg.height * tw / lg.width)), Image.LANCZOS)
             bb = lg.getbbox()
             lg = lg.crop(bb)
@@ -446,11 +446,11 @@ class Typo:
         if pout > 0:
             img = cv2.GaussianBlur(img, (0, 0), 0.1 + 10 * k * pout)
         out = np.zeros((self.H, self.W, 4), np.float32)
-        x, y = (self.W - w) // 2, int(self.H * 0.40 - h / 2)
+        x, y = int(self.W * 0.40 - w / 2), int(self.H * 0.40 - h / 2)
         out[y:y + h, x:x + w] = img
         g = self.cache[("gt",)]
         gl = self.blank()
-        self.paste(gl, g, (self.W - g.width) // 2, y + h + 6 * k, ease((u - 0.25) / 0.3) * (1 - pout))
+        self.paste(gl, g, x + (w - g.width) // 2, y + h + 6 * k, ease((u - 0.25) / 0.3) * (1 - pout))
         ga = np.array(gl).astype(np.float32)
         a = ga[..., 3:4] / 255
         out[..., :3] = ga[..., :3] * a + out[..., :3] * (1 - a)
