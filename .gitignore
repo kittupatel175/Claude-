@@ -1,0 +1,6 @@
+# Keep raw footage and renders out of git (too large)
+input/*
+output/*
+!input/.gitkeep
+!output/.gitkeep
+.DS_Store
